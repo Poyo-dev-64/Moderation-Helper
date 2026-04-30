@@ -1,0 +1,16 @@
+[
+{
+  "modid": "moderation",
+  "name": "Moderation Helper",
+  "description": "Mod to assist Fakepixel staff with Moderation",
+  "version": "0.32",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["_m3l"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
