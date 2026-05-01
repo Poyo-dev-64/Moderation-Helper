@@ -49,12 +49,12 @@ public class FMPunishCommand extends CommandBase {
 
             path.setChatStyle(new ChatStyle()
                     .setChatClickEvent(new ClickEvent(
-                            ClickEvent.Action.OPEN_FILE,
-                            file.getAbsolutePath()
+                            ClickEvent.Action.RUN_COMMAND,
+                            "/fm_open " + file.getName()
                     ))
                     .setChatHoverEvent(new HoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
-                            new ChatComponentText("§eClick to open")
+                            new ChatComponentText("§eOpen screenshot")
                     ))
             );
 
