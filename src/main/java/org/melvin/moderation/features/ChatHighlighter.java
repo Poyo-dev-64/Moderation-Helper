@@ -1,18 +1,28 @@
 package org.melvin.moderation.features;
 
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+
 public class ChatHighlighter {
 
-    private static final String[] KEYWORDS = {"admin", "mod", "help"};
+    public static IChatComponent highlight(IChatComponent original, String word) {
 
-    public static void process(String msg) {
+        String text = original.getFormattedText();
+        String lower = text.toLowerCase();
 
-        String lower = msg.toLowerCase();
+        int index = lower.indexOf(word);
+        if (index == -1) return original;
 
-        for (String keyword : KEYWORDS) {
-            if (lower.contains(keyword)) {
-                System.out.println("[HIGHLIGHT] " + msg);
-                return;
-            }
-        }
+        String before = text.substring(0, index);
+        String match = text.substring(index, index + word.length());
+        String after = text.substring(index + word.length());
+
+        ChatComponentText result = new ChatComponentText("");
+
+        result.appendSibling(new ChatComponentText(before));
+        result.appendSibling(new ChatComponentText("§c§l" + match));
+        result.appendSibling(new ChatComponentText(after));
+
+        return result;
     }
 }

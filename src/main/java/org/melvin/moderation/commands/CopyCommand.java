@@ -3,7 +3,7 @@ package org.melvin.moderation.commands;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import org.melvin.moderation.events.ChatHandler;
+import net.minecraft.util.ChatComponentText;
 
 public class CopyCommand extends CommandBase {
 
@@ -14,12 +14,23 @@ public class CopyCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/fm_copy";
+        return "/fm_copy <text>";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        GuiScreen.setClipboardString(ChatHandler.getLastMessage());
+
+        if (args.length == 0) {
+            sender.addChatMessage(new ChatComponentText("§cNothing to copy"));
+            return;
+        }
+
+        String text = String.join(" ", args)
+                .replaceAll("^\"|\"$", "");
+
+        GuiScreen.setClipboardString(text);
+
+        sender.addChatMessage(new ChatComponentText("§aCopied command"));
     }
 
     @Override

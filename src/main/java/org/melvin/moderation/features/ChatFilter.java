@@ -1,5 +1,7 @@
 package org.melvin.moderation.features;
 
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.melvin.moderation.events.RenderHandler;
@@ -25,9 +27,36 @@ public class ChatFilter {
 
                 triggerWarning(user, rule);
 
+                // 🔥 APPLY HIGHLIGHT
+                event.message = highlight(event.message, rule.word);
+
                 break;
             }
         }
+    }
+
+    private IChatComponent highlight(IChatComponent original, String word) {
+
+        String text = original.getFormattedText();
+        String lower = text.toLowerCase();
+
+        int index = lower.indexOf(word);
+        if (index == -1) return original;
+
+        String before = text.substring(0, index);
+        String match = text.substring(index, index + word.length());
+        String after = text.substring(index + word.length());
+
+        ChatComponentText result = new ChatComponentText("");
+
+        result.appendSibling(new ChatComponentText(before));
+
+        // highlighted word
+        result.appendSibling(new ChatComponentText("§c§l" + match));
+
+        result.appendSibling(new ChatComponentText(after));
+
+        return result;
     }
 
     private void triggerWarning(String user, ChatRule rule) {

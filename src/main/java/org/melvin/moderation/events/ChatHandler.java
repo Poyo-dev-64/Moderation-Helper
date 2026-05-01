@@ -41,7 +41,6 @@ public class ChatHandler {
             triggerFlood(username);
         }
 
-        // DUPLICATE SPAM CHECK
         String prev = lastMsg.get(username);
         int count = repeatCount.getOrDefault(username, 1);
         long expire = expireTime.getOrDefault(username, 0L);
@@ -83,20 +82,7 @@ public class ChatHandler {
                 ))
         );
 
-        ChatComponentText copy = new ChatComponentText(" §7[§bCOPY§7]");
-        copy.setChatStyle(new ChatStyle()
-                .setChatClickEvent(new ClickEvent(
-                        ClickEvent.Action.RUN_COMMAND,
-                        "/fm_copy"
-                ))
-                .setChatHoverEvent(new HoverEvent(
-                        HoverEvent.Action.SHOW_TEXT,
-                        new ChatComponentText("Copy message")
-                ))
-        );
-
         rebuilt.appendSibling(mute);
-        rebuilt.appendSibling(copy);
 
         event.message = rebuilt;
     }
