@@ -15,7 +15,7 @@ public class ModConfig {
 
     public static void load() {
         if (!file.exists()) return;
-        // simple file parsing later if needed
+
     }
 
     public static void save() {

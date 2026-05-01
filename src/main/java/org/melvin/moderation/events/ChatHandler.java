@@ -1,13 +1,15 @@
 package org.melvin.moderation.events;
 
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.*;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatStyle;
+
+import org.melvin.moderation.events.RenderHandler;
 
 import java.util.HashMap;
 
@@ -21,6 +23,8 @@ public class ChatHandler {
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
+
+        if (event.message == null) return;
 
         IChatComponent original = event.message;
         String plain = original.getUnformattedText();
@@ -62,7 +66,6 @@ public class ChatHandler {
             }
 
         } else {
-
             lastMsg.put(username, msg);
             repeatCount.put(username, 1);
             expireTime.put(username, now + 30000);
@@ -102,10 +105,8 @@ public class ChatHandler {
         int count = 1;
 
         for (int i = 1; i < msg.length(); i++) {
-
             if (msg.charAt(i) == msg.charAt(i - 1)) {
                 count++;
-
                 if (count >= 10) return true;
             } else {
                 count = 1;
@@ -120,7 +121,9 @@ public class ChatHandler {
     }
 
     private String sanitize(String input) {
-        return input.replaceAll("§.", "").replaceAll("[^a-zA-Z0-9_\\-]", "").trim();
+        return input.replaceAll("§.", "")
+                .replaceAll("[^a-zA-Z0-9_\\-]", "")
+                .trim();
     }
 
     private boolean isStaffChat(String msg) {
@@ -129,10 +132,8 @@ public class ChatHandler {
                 || msg.contains("/sc")
                 || msg.contains("Vanished Staff")
                 || msg.contains("§fVanished Staff")
-                || msg.contains("§fOnline Staff")
                 || msg.contains("watch dog")
                 || msg.contains("report on player")
-                || msg.contains("open report menu")
                 || msg.contains("watchdog announcement");
     }
 

@@ -10,7 +10,7 @@ import org.melvin.moderation.events.ChatHandler;
 import org.melvin.moderation.events.RenderHandler;
 import net.minecraftforge.client.ClientCommandHandler;
 
-@Mod(modid = "moderation", name = "Moderation Helper", version = "0.32")
+@Mod(modid = "moderation", name = "Moderation Helper", version = "0.41")
 public class Main {
 
     @Mod.EventHandler
