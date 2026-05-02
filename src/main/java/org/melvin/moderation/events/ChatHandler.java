@@ -134,7 +134,8 @@ public class ChatHandler {
                 || msg.contains("§fVanished Staff")
                 || msg.contains("watch dog")
                 || msg.contains("report on player")
-                || msg.contains("watchdog announcement");
+                || msg.contains("watchdog announcement")
+                || msg.contains("You are playing on profile");
     }
 
     private String extractUsername(String msg) {

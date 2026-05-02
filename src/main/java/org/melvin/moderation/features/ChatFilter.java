@@ -1,7 +1,5 @@
 package org.melvin.moderation.features;
 
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.melvin.moderation.events.RenderHandler;
@@ -133,8 +131,6 @@ public class ChatFilter {
             new ChatRule("incest", "40d", "mute", "mji"),
             new ChatRule("rape", "40d", "mute", "mji"),
             new ChatRule("rapist", "40d", "mute", "mji"),
-            new ChatRule("badword1", "1h", "mute", "mci"),
-            new ChatRule("badword2", "30d", "mute", "mji")
     };
 
     @SubscribeEvent
@@ -143,20 +139,43 @@ public class ChatFilter {
         if (event.type != 0) return;
 
         String original = event.message.getUnformattedText();
-        String msg = original.toLowerCase();
 
         String user = extractUser(original);
+        String message = extractMessage(original);
+
+        String msg = message.toLowerCase();
+
+        String[] words = msg.split("[^a-z0-9]+");
 
         for (ChatRule rule : RULES) {
 
-            if (msg.contains(rule.word)) {
-
-                triggerWarning(user, rule);
-                break;
+            for (String w : words) {
+                if (w.equals(rule.word)) {
+                    triggerWarning(user, rule);
+                    return;
+                }
             }
         }
     }
 
+private String extractUser(String msg) {
+
+    int colon = msg.indexOf(':');
+    if (colon == -1) return "Unknown";
+
+    String left = msg.substring(0, colon).replaceAll("§.", "").trim();
+
+    String[] parts = left.split("\\s+");
+    return parts.length > 0 ? parts[parts.length - 1] : "Unknown";
+}
+
+    private String extractMessage(String msg) {
+
+        int colonIndex = msg.indexOf(':');
+        if (colonIndex == -1) return msg;
+
+        return msg.substring(colonIndex + 1).trim();
+    }
 
     private void triggerWarning(String user, ChatRule rule) {
 
@@ -171,21 +190,6 @@ public class ChatFilter {
                 rule.word,
                 command
         );
-    }
-
-    private String extractUser(String msg) {
-
-        if (!msg.contains(":")) return "Unknown";
-
-        try {
-            String left = msg.split(":")[0].trim();
-            String[] parts = left.split(" ");
-
-            return parts.length > 0 ? parts[parts.length - 1] : "Unknown";
-
-        } catch (Exception e) {
-            return "Unknown";
-        }
     }
 
     private static class ChatRule {
