@@ -27,7 +27,7 @@ public class Command implements ICommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        // keep your command logic here if needed
+
     }
 
     @Override

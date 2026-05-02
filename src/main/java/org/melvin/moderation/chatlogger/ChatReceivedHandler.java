@@ -24,16 +24,16 @@ public class ChatReceivedHandler {
             return;
         }
 
-        // Ignore action bar / HUD spam
+
         if (event.type == 2) return;
 
         String message = event.message.getUnformattedText();
 
-        // Remove duplicates spam
+
         if (message.equals(lastMessage)) return;
         lastMessage = message;
 
-        // Filter Hypixel stat/HUD spam (HP/Mana updates etc.)
+
         if (message.matches(".*\\d+/\\d+.*(Mana|Health|Defense).*")) return;
 
         String noformat = message.replaceAll("\\xA7[A-Za-z0-9]", "");

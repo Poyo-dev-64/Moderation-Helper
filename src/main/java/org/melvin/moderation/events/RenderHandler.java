@@ -31,6 +31,9 @@ public class RenderHandler {
     private String flagLine3;
     private long flagExpire = 0;
 
+
+    private final String[] lastFlags = new String[3];
+
     private enum Mode { DAY, WEEK, MONTH, ALL }
     private Mode mode = Mode.DAY;
 
@@ -50,10 +53,16 @@ public class RenderHandler {
 
     public void showFlag(String user, String reason, String command) {
         if (!showFlags) return;
+
         flagLine1 = "§cCHAT FLAGGED";
         flagLine2 = "§e" + user + " §7→ §c" + reason;
         flagLine3 = command;
         flagExpire = System.currentTimeMillis() + 5000;
+
+
+        lastFlags[2] = lastFlags[1];
+        lastFlags[1] = lastFlags[0];
+        lastFlags[0] = user;
     }
 
     @SubscribeEvent
@@ -107,6 +116,35 @@ public class RenderHandler {
             mc.fontRendererObj.drawString("Mutes: " + mutes, x + 5, y + 30, 0xFF5555);
             mc.fontRendererObj.drawString("Bans: " + bans, x + 5, y + 40, 0xFF0000);
             mc.fontRendererObj.drawString("Tempbans: " + tempbans, x + 5, y + 50, 0xAA00FF);
+
+
+            if (showFlags) {
+                int fx = x + 160;
+                int fy = y;
+
+                Gui.drawRect(fx, fy, fx + 120, fy + 65, 0x80000000);
+
+                mc.fontRendererObj.drawString("§eRecent Flags", fx + 5, fy + 5, 0xFFFFFF);
+
+                for (int i = 0; i < 3; i++) {
+                    if (lastFlags[i] != null) {
+
+                        String name = lastFlags[i];
+
+
+                        if (mc.fontRendererObj.getStringWidth(name) > 110) {
+                            name = name.substring(0, Math.min(name.length(), 12)) + "...";
+                        }
+
+                        mc.fontRendererObj.drawString(
+                                "§c" + name,
+                                fx + 5,
+                                fy + 20 + (i * 10),
+                                0xFFFFFF
+                        );
+                    }
+                }
+            }
         }
 
         if (showFlags &&

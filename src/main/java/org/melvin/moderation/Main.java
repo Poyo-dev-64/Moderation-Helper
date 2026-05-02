@@ -18,7 +18,7 @@ import org.melvin.moderation.features.ChatFilter;
 import org.melvin.moderation.chatlogger.ChatLog;
 import org.melvin.moderation.util.KeybindHandler;
 
-@Mod(modid = "moderation", name = "Moderation Helper", version = "0.5")
+@Mod(modid = "moderation", name = "Moderation Helper", version = "0.52")
 public class Main {
 
     public ChatLog chatLog;
