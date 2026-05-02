@@ -32,10 +32,6 @@ minecraft {
 	]
 }
 
-runClient {
-    args "--username", "_m3l"
-}
-
 repositories {
     mavenCentral()
 }
