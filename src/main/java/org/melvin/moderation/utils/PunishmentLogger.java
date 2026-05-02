@@ -1,23 +1,26 @@
 package org.melvin.moderation.util;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import net.minecraft.client.Minecraft;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 public class PunishmentLogger {
 
-    private static final File file = new File("moderation_log.txt");
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static File getFile() {
+        return new File(Minecraft.getMinecraft().mcDataDir, "moderation_log.txt");
+    }
 
     public static void log(String type, String player, String offense) {
         try {
+            File file = getFile();
             if (!file.exists()) file.createNewFile();
 
-            FileWriter fw = new FileWriter(file, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
 
-            String time = sdf.format(new Date());
-            bw.write(time + " | " + type + " | " + player + " | " + offense);
+            long time = System.currentTimeMillis();
+            bw.write(time + "|" + type + "|" + player + "|" + offense);
             bw.newLine();
 
             bw.close();

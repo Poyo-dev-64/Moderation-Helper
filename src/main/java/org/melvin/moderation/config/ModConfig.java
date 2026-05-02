@@ -7,10 +7,6 @@ public class ModConfig {
 
     public static boolean enabled = true;
     public static boolean chatLogger = true;
-
-    public static List<String> keywords = Arrays.asList("admin", "mod", "help");
-    public static List<String> filteredWords = Arrays.asList("spam", "scam");
-
     private static final File file = new File("moderation.cfg");
 
     public static void load() {

@@ -135,6 +135,7 @@ public class ChatHandler {
                 || msg.contains("watch dog")
                 || msg.contains("report on player")
                 || msg.contains("watchdog announcement")
+                || msg.contains("Online Friends")
                 || msg.contains("You are playing on profile");
     }
 
