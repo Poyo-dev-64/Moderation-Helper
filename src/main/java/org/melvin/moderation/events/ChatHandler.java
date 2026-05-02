@@ -1,13 +1,11 @@
 package org.melvin.moderation.events;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.*;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatStyle;
 
 import org.melvin.moderation.events.RenderHandler;
 
@@ -26,6 +24,9 @@ public class ChatHandler {
 
         if (event.message == null) return;
 
+
+        if (event.type == 2) return;
+
         IChatComponent original = event.message;
         String plain = original.getUnformattedText();
 
@@ -38,6 +39,11 @@ public class ChatHandler {
 
         long now = System.currentTimeMillis();
         String msg = plain.toLowerCase();
+
+
+        if (isExemptMessage(msg)) {
+            return;
+        }
 
         IChatComponent rebuilt = original.createCopy();
 
@@ -101,7 +107,6 @@ public class ChatHandler {
     }
 
     private boolean isCharFlood(String msg) {
-
         int count = 1;
 
         for (int i = 1; i < msg.length(); i++) {
@@ -114,6 +119,11 @@ public class ChatHandler {
         }
 
         return false;
+    }
+
+
+    private boolean isExemptMessage(String msg) {
+        return msg.contains("armadillo energy");
     }
 
     public static String getLastMessage() {
